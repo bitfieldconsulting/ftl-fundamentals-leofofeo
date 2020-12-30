@@ -2,6 +2,7 @@ package calculator_test
 
 import (
 	"calculator"
+	"math/rand"
 	"testing"
 )
 
@@ -153,5 +154,22 @@ func TestDivide(t *testing.T) {
 			}
 		}
 
+	}
+}
+
+func TestAddRandom(t *testing.T) {
+	t.Parallel()
+	iterations := 100
+	for i := 0; i < iterations; i++ {
+		a := rand.Float64() * 10
+		b := rand.Float64() * 10
+
+		sum := a + b
+
+		got := calculator.Add(a, b)
+		if sum != got {
+			t.Errorf("Expected sum of %f and %f to match", a, b)
+			t.Errorf("Got %f and %f (the latter from Add)", sum, got)
+		}
 	}
 }
