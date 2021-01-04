@@ -230,3 +230,72 @@ func TestSqrRoot(t *testing.T) {
 		}
 	}
 }
+
+func TestVariadicFunctions(t *testing.T) {
+	t.Parallel()
+
+	// test addition
+	got := calculator.Add(1, 2, 3, 4)
+	var want float64 = 10
+	if got != want {
+		t.Errorf("want %f, got %f", want, got)
+	}
+
+	got = calculator.Add(1, 2, 3, 4, 100, 1000, -5)
+	want = 1105
+	if got != want {
+		t.Errorf("want %f, got %f", want, got)
+	}
+
+	// test substraction
+	got = calculator.Subtract(10, 5, 3)
+	want = 2
+	if got != want {
+		t.Errorf("want %f, got %f", want, got)
+	}
+
+	got = calculator.Subtract(-10, 5, -20)
+	want = 5
+	if got != want {
+		t.Errorf("want %f, got %f", want, got)
+	}
+
+	// test multiplication
+	got = calculator.Multiply(-5, 6, 2, 4, 0)
+	want = 0
+	if got != want {
+		t.Errorf("want %f, got %f", want, got)
+	}
+
+	got = calculator.Multiply(10, -10, 1, -1, .5)
+	want = 50
+	if got != want {
+		t.Errorf("want %f, got %f", want, got)
+	}
+
+	// test division
+	got, err := calculator.Divide(100, 10, 10)
+	want = 1
+	if got != want {
+		t.Errorf("want %f, got %f", want, got)
+	}
+
+	if err != nil {
+		t.Errorf("Error when atttempting to divide")
+	}
+
+	got, err = calculator.Divide(-5, 10, .5)
+	want = -1
+	if got != want {
+		t.Errorf("want %f, got %f", want, got)
+	}
+
+	if err != nil {
+		t.Errorf("Error when atttempting to divide")
+	}
+
+	got, err = calculator.Divide(100, 10, 10, 0, 20)
+	if err == nil {
+		t.Errorf("No error thrown when atttempting to divide by zero")
+	}
+}

@@ -53,7 +53,7 @@ func Divide(nums ...float64) (float64, error) {
 // SqrRoot takes a number and returns its square root provided it has, otherwirse it returns an error.
 func SqrRoot(a float64) (float64, error) {
 	if a < 0 {
-		return 0, errors.New("Cannot get square root of negative number.")
+		return 0, errors.New("cannot get square root of negative number")
 	}
 	return math.Sqrt(a), nil
 }
