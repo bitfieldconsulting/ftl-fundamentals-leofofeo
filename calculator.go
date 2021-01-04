@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-// Add takes two numbers and returns the result of adding them together.
+// Add takes a variable number of float64 and returns their sum.
 func Add(nums ...float64) float64 {
 	sum := 0.0
 	for _, num := range nums {
@@ -17,8 +17,7 @@ func Add(nums ...float64) float64 {
 	return sum
 }
 
-// Subtract takes two numbers and returns the result of subtracting the second
-// from the first.
+// Subtract takes a variable number of float64 and returns their difference.
 func Subtract(nums ...float64) float64 {
 	difference := nums[0]
 
@@ -28,7 +27,7 @@ func Subtract(nums ...float64) float64 {
 	return difference
 }
 
-// Multiply takes two numbers and returns their product.
+// Multiply takes a variable number of float64 and returns their product.
 func Multiply(nums ...float64) float64 {
 	product := 1.0
 	for _, num := range nums {
@@ -37,7 +36,7 @@ func Multiply(nums ...float64) float64 {
 	return product
 }
 
-// Divide takes two numbers and returns their quotient, or an error if it's not a valid division.
+// Divide takes a variable number of float64 and returns their quotient, or an error if it's not a valid division.
 func Divide(nums ...float64) (float64, error) {
 	dividend := nums[0]
 
@@ -51,7 +50,7 @@ func Divide(nums ...float64) (float64, error) {
 	return dividend, nil
 }
 
-// SqrRoot takes a number and returns its square root provided it has, otherwirse it returns an error.
+// SqrRoot takes a number and returns its square root provided it has one, otherwise it returns an error.
 func SqrRoot(a float64) (float64, error) {
 	if a < 0 {
 		return 0, errors.New("cannot get square root of negative number")
@@ -59,7 +58,7 @@ func SqrRoot(a float64) (float64, error) {
 	return math.Sqrt(a), nil
 }
 
-// StringOperations takes in an expression as a string and parses it to evaluate it. Ex: "10 + 5" returns 5
+// StringOperations takes in an expression as a string and parses it to evaluate it. Ex: "10 + 5" returns 15
 func StringOperations(operation string) (float64, error) {
 	// op := strings.ReplaceAll(operation, " ", "")
 	s := strings.ReplaceAll(operation, " ", "")
