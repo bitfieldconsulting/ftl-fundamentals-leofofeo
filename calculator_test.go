@@ -294,8 +294,40 @@ func TestVariadicFunctions(t *testing.T) {
 		t.Errorf("Error when atttempting to divide")
 	}
 
-	got, err = calculator.Divide(100, 10, 10, 0, 20)
+	_, err = calculator.Divide(100, 10, 10, 0, 20)
 	if err == nil {
 		t.Errorf("No error thrown when atttempting to divide by zero")
+	}
+}
+
+type stringTestCase struct {
+	a    string
+	want float64
+	name string
+}
+
+func TestStringOperations(t *testing.T) {
+	t.Parallel()
+	testCases := []stringTestCase{
+		{a: "1+5", want: 6, name: "1 + 5"},
+		{a: "10 + 20", want: 30, name: "10 + 20"},
+		{a: "6 - 4", want: 2, name: "6 - 4"},
+		{a: "20-2", want: 18, name: "20 - 2"},
+		{a: "5 * 3", want: 15, name: "5 * 3"},
+		{a: "1*12.5", want: 12.5, name: "1 * 12.5"},
+		{a: "10/10", want: 1, name: "10 / 10"},
+		{a: "5   /    10", want: .5, name: "5 / 10"},
+	}
+	for _, tc := range testCases {
+		got, err := calculator.StringOperations(tc.a)
+		if tc.want != got {
+			t.Errorf("Error for the following test: ")
+			t.Errorf("%s", tc.name)
+			t.Errorf("want %f, got %f", tc.want, got)
+		}
+		if err != nil {
+			t.Errorf("Error for the following test: ")
+			t.Errorf("%s", tc.name)
+		}
 	}
 }

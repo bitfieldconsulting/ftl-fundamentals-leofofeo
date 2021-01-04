@@ -1,9 +1,10 @@
-// Package calculator provides a library for simple calculations in Go.
 package calculator
 
 import (
 	"errors"
 	"math"
+	"strconv"
+	"strings"
 )
 
 // Add takes two numbers and returns the result of adding them together.
@@ -56,4 +57,39 @@ func SqrRoot(a float64) (float64, error) {
 		return 0, errors.New("cannot get square root of negative number")
 	}
 	return math.Sqrt(a), nil
+}
+
+// StringOperations takes in an expression as a string and parses it to evaluate it. Ex: "10 + 5" returns 5
+func StringOperations(operation string) (float64, error) {
+	// op := strings.ReplaceAll(operation, " ", "")
+	s := strings.ReplaceAll(operation, " ", "")
+	operators := []string{"+", "-", "*", "/"}
+
+	var result float64
+	var err error
+
+	for _, op := range operators {
+		if strings.Contains(s, op) {
+			s := strings.Split(s, op)
+			a, _ := strconv.ParseFloat(s[0], 64)
+			b, _ := strconv.ParseFloat(s[1], 64)
+
+			switch op {
+			case "+":
+				result = Add(a, b)
+			case "-":
+				result = Subtract(a, b)
+			case "*":
+				result = Multiply(a, b)
+			case "/":
+				result, err = Divide(a, b)
+				if err != nil {
+					return 0, err
+				}
+			}
+
+		}
+	}
+
+	return result, nil
 }
