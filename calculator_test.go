@@ -173,3 +173,60 @@ func TestAddRandom(t *testing.T) {
 		}
 	}
 }
+
+func TestSqrRoot(t *testing.T) {
+	t.Parallel()
+	testCases := []testCase{
+		{
+			a:           4,
+			want:        2,
+			name:        "Square root of 4",
+			errExpected: false,
+		},
+		{
+			a:           16,
+			want:        4,
+			name:        "Square root of 16",
+			errExpected: false,
+		},
+		{
+			a:           100,
+			want:        10,
+			name:        "Square root of 100",
+			errExpected: false,
+		},
+		{
+			a:           -20,
+			name:        "Square root of -20",
+			errExpected: true,
+		},
+	}
+	for _, tc := range testCases {
+		got, err := calculator.SqrRoot(tc.a)
+		if tc.errExpected {
+			if err != nil {
+				if tc.want != got {
+					t.Errorf("Error for the following test: ")
+					t.Errorf("%s", tc.name)
+					t.Errorf("want %f, got %f", tc.want, got)
+				}
+			} else {
+				t.Errorf("Error for the following test: ")
+				t.Errorf("%s", tc.name)
+				t.Errorf("Expected error but got none.")
+			}
+		} else {
+			if err != nil {
+				t.Errorf("Error for the following test: ")
+				t.Errorf("%s", tc.name)
+				t.Errorf("Got error - invalid inputs")
+			} else {
+				if tc.want != got {
+					t.Errorf("Error for the following test: ")
+					t.Errorf("%s", tc.name)
+					t.Errorf("want %f, got %f", tc.want, got)
+				}
+			}
+		}
+	}
+}
