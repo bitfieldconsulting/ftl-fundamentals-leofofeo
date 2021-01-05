@@ -13,14 +13,14 @@ type testCase struct {
 	errExpected bool
 }
 
-func TestAdd(t *testing.T) {
+func TestAddSubtractMultiply(t *testing.T) {
 	t.Parallel()
-	testCases := []testCase{
-		{a: 1, b: 1, want: 2, name: "Add 1 + 1"},
-		{a: 10.0, b: -2, want: 8.0, name: "Add a positive and a negative"},
-		{a: 5, b: 3, want: 8, name: "Add 5 + 3"},
+	addTestCases := []testCase{
+		{name: "Add 1 + 1", a: 1, b: 1, want: 2},
+		{name: "Add a positive and a negative", a: 10.0, b: -2, want: 8.0},
+		{name: "Add 5 + 3", a: 5, b: 3, want: 8},
 	}
-	for _, tc := range testCases {
+	for _, tc := range addTestCases {
 		got := calculator.Add(tc.a, tc.b)
 		if tc.want != got {
 			t.Errorf("Error for the following test: ")
@@ -28,26 +28,24 @@ func TestAdd(t *testing.T) {
 			t.Errorf("want %f, got %f", tc.want, got)
 		}
 	}
-}
 
-func TestSubtract(t *testing.T) {
-	t.Parallel()
-	testCases := []testCase{
-		{a: 2, b: 2, want: 0, name: "Subtract 2 from 2"},
-		{a: 0, b: -15, want: 15, name: "Subtract a negative number from 0"},
+	subtractTestCases := []testCase{
+		{name: "Subtract 2 from 2", a: 2, b: 2, want: 0},
+		{name: "Subtract a negative number from 0", a: 0, b: -15, want: 15},
 		{
+			name: "Subtract a larger value from a smaller value",
 			a:    10,
 			b:    100,
 			want: -90,
-			name: "Subtract a larger value from a smaller value"},
+		},
 		{
+			name: "Subtract a decimal from a whole number",
 			a:    10,
 			b:    .5,
 			want: 9.5,
-			name: "Subtract a decimal from a whole number",
 		},
 	}
-	for _, tc := range testCases {
+	for _, tc := range subtractTestCases {
 		got := calculator.Subtract(tc.a, tc.b)
 		if tc.want != got {
 			t.Errorf("Error for the following test: ")
@@ -55,22 +53,19 @@ func TestSubtract(t *testing.T) {
 			t.Errorf("want %f, got %f", tc.want, got)
 		}
 	}
-}
 
-func TestMultiply(t *testing.T) {
-	t.Parallel()
-	testCases := []testCase{
+	multiplyTestCases := []testCase{
 		{a: 2, b: 2, want: 4, name: "Multiply 2 and 2"},
 		{a: 1, b: -1, want: -1, name: "Multiply a positive and a negative"},
 		{a: 10, b: 100, want: 1000, name: "Multiply 10 and 100"},
 		{
+			name: "Multiply a positive decimal and a negative integer",
 			a:    .5,
 			b:    -40,
 			want: -20,
-			name: "Multiply a positive decimal and a negative integer",
 		},
 	}
-	for _, tc := range testCases {
+	for _, tc := range multiplyTestCases {
 		got := calculator.Multiply(tc.a, tc.b)
 		if tc.want != got {
 			t.Errorf("Error for the following test: ")
@@ -84,45 +79,45 @@ func TestDivide(t *testing.T) {
 	t.Parallel()
 	testCases := []testCase{
 		{
+			name:        "Divide 2 and 2",
 			a:           2,
 			b:           2,
 			want:        1,
-			name:        "Divide 2 and 2",
 			errExpected: false,
 		},
 		{
+			name:        "Divide a positive and a negative",
 			a:           1,
 			b:           -1,
 			want:        -1,
-			name:        "Divide a positive and a negative",
 			errExpected: false,
 		},
 		{
+			name:        "Divide a smaller number by a larger number",
 			a:           10,
 			b:           100,
 			want:        .1,
-			name:        "Divide a smaller number by a larger number",
 			errExpected: false,
 		},
 		{
+			name:        "Divide a negative integer by a positive decimal",
 			a:           -40,
 			b:           .5,
 			want:        -80,
-			name:        "Divide a negative integer by a positive decimal",
 			errExpected: false,
 		},
 		{
+			name:        "Divide a positive integer by zero",
 			a:           6,
 			b:           0,
 			want:        0,
-			name:        "Divide a positive integer by zero",
 			errExpected: true,
 		},
 		{
+			name:        "Divide zero by an integer",
 			a:           0,
 			b:           10,
 			want:        0,
-			name:        "Divide zero by an integer",
 			errExpected: false,
 		},
 	}

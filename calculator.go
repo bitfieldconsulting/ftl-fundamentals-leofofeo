@@ -8,43 +8,56 @@ import (
 )
 
 // Add takes a variable number of float64 and returns their sum.
-func Add(nums ...float64) float64 {
-	sum := 0.0
-	for _, num := range nums {
-		sum += num
+func Add(a float64, b float64, nums ...float64) float64 {
+	sum := a + b
+
+	if len(nums) > 0 {
+		for _, n := range nums {
+			sum += n
+		}
 	}
 
 	return sum
 }
 
 // Subtract takes a variable number of float64 and returns their difference.
-func Subtract(nums ...float64) float64 {
-	difference := nums[0]
+func Subtract(a float64, b float64, nums ...float64) float64 {
+	difference := a - b
 
-	for i := 1; i < len(nums); i++ {
-		difference -= nums[i]
+	if len(nums) > 0 {
+		for _, n := range nums {
+			difference -= n
+		}
 	}
+
 	return difference
 }
 
 // Multiply takes a variable number of float64 and returns their product.
-func Multiply(nums ...float64) float64 {
-	product := 1.0
-	for _, num := range nums {
-		product *= num
+func Multiply(a float64, b float64, nums ...float64) float64 {
+	product := a * b
+
+	if len(nums) > 0 {
+		for _, n := range nums {
+			product *= n
+		}
 	}
+
 	return product
 }
 
 // Divide takes a variable number of float64 and returns their quotient, or an error if it's not a valid division.
-func Divide(nums ...float64) (float64, error) {
-	dividend := nums[0]
+func Divide(a float64, b float64, nums ...float64) (float64, error) {
+	if b == 0 || containsFloat64(nums, 0.0) {
+		return 0, errors.New("Cannot divide by zero")
+	}
 
-	for i := 1; i < len(nums); i++ {
-		if nums[i] == 0 {
-			return 0, errors.New("Cannot divide by zero")
+	dividend := a / b
+
+	if len(nums) > 0 {
+		for _, n := range nums {
+			dividend /= n
 		}
-		dividend /= nums[i]
 	}
 
 	return dividend, nil
@@ -60,12 +73,8 @@ func SqrRoot(a float64) (float64, error) {
 
 // StringOperations takes in an expression as a string and parses it to evaluate it. Ex: "10 + 5" returns 15
 func StringOperations(operation string) (float64, error) {
-	// op := strings.ReplaceAll(operation, " ", "")
 	s := strings.ReplaceAll(operation, " ", "")
 	operators := []string{"+", "-", "*", "/"}
-
-	var result float64
-	var err error
 
 	for _, op := range operators {
 		if strings.Contains(s, op) {
@@ -75,20 +84,26 @@ func StringOperations(operation string) (float64, error) {
 
 			switch op {
 			case "+":
-				result = Add(a, b)
+				return Add(a, b), nil
 			case "-":
-				result = Subtract(a, b)
+				return Subtract(a, b), nil
 			case "*":
-				result = Multiply(a, b)
+				return Multiply(a, b), nil
 			case "/":
-				result, err = Divide(a, b)
-				if err != nil {
-					return 0, err
-				}
+				return Divide(a, b)
 			}
 
 		}
 	}
+	return 0.0, errors.New("Invalid operator")
+}
 
-	return result, nil
+func containsFloat64(s []float64, i float64) bool {
+	for _, v := range s {
+		if v == i {
+			return true
+		}
+	}
+
+	return false
 }
