@@ -6,20 +6,17 @@ import (
 	"testing"
 )
 
-type testCase struct {
-	a, b        float64
-	want        float64
-	name        string
-	errExpected bool
-}
-
 func TestAddSubtractMultiply(t *testing.T) {
 	t.Parallel()
-	addTestCases := []testCase{
+	addTestCases := []struct {
+		name       string
+		a, b, want float64
+	}{
 		{name: "Add 1 + 1", a: 1, b: 1, want: 2},
 		{name: "Add a positive and a negative", a: 10.0, b: -2, want: 8.0},
 		{name: "Add 5 + 3", a: 5, b: 3, want: 8},
 	}
+	
 	for _, tc := range addTestCases {
 		got := calculator.Add(tc.a, tc.b)
 		if tc.want != got {
@@ -29,7 +26,10 @@ func TestAddSubtractMultiply(t *testing.T) {
 		}
 	}
 
-	subtractTestCases := []testCase{
+	subtractTestCases := []struct {
+		name       string
+		a, b, want float64
+	}{
 		{name: "Subtract 2 from 2", a: 2, b: 2, want: 0},
 		{name: "Subtract a negative number from 0", a: 0, b: -15, want: 15},
 		{
@@ -54,7 +54,10 @@ func TestAddSubtractMultiply(t *testing.T) {
 		}
 	}
 
-	multiplyTestCases := []testCase{
+	multiplyTestCases := []struct {
+		a, b, want float64
+		name       string
+	}{
 		{a: 2, b: 2, want: 4, name: "Multiply 2 and 2"},
 		{a: 1, b: -1, want: -1, name: "Multiply a positive and a negative"},
 		{a: 10, b: 100, want: 1000, name: "Multiply 10 and 100"},
@@ -77,7 +80,11 @@ func TestAddSubtractMultiply(t *testing.T) {
 
 func TestDivide(t *testing.T) {
 	t.Parallel()
-	testCases := []testCase{
+	testCases := []struct {
+		name        string
+		a, b, want  float64
+		errExpected bool
+	}{
 		{
 			name:        "Divide 2 and 2",
 			a:           2,
@@ -171,11 +178,15 @@ func TestAddRandom(t *testing.T) {
 
 func TestSqrRoot(t *testing.T) {
 	t.Parallel()
-	testCases := []testCase{
+	testCases := []struct {
+		name        string
+		a, want     float64
+		errExpected bool
+	}{
 		{
+			name:        "Square root of 4",
 			a:           4,
 			want:        2,
-			name:        "Square root of 4",
 			errExpected: false,
 		},
 		{
@@ -185,14 +196,14 @@ func TestSqrRoot(t *testing.T) {
 			errExpected: false,
 		},
 		{
+			name:        "Square root of 100",
 			a:           100,
 			want:        10,
-			name:        "Square root of 100",
 			errExpected: false,
 		},
 		{
-			a:           -20,
 			name:        "Square root of -20",
+			a:           -20,
 			errExpected: true,
 		},
 	}
@@ -295,23 +306,20 @@ func TestVariadicFunctions(t *testing.T) {
 	}
 }
 
-type stringTestCase struct {
-	a    string
-	want float64
-	name string
-}
-
 func TestStringOperations(t *testing.T) {
 	t.Parallel()
-	testCases := []stringTestCase{
-		{a: "1+5", want: 6, name: "1 + 5"},
-		{a: "10 + 20", want: 30, name: "10 + 20"},
-		{a: "6 - 4", want: 2, name: "6 - 4"},
-		{a: "20-2", want: 18, name: "20 - 2"},
-		{a: "5 * 3", want: 15, name: "5 * 3"},
-		{a: "1*12.5", want: 12.5, name: "1 * 12.5"},
-		{a: "10/10", want: 1, name: "10 / 10"},
-		{a: "5   /    10", want: .5, name: "5 / 10"},
+	testCases := []struct {
+		name, a string
+		want    float64
+	}{
+		{name: "1 + 5", a: "1+5", want: 6},
+		{name: "10 + 20", a: "10 + 20", want: 30},
+		{name: "6 - 4", a: "6 - 4", want: 2},
+		{name: "20 - 2", a: "20-2", want: 18},
+		{name: "5 * 3", a: "5 * 3", want: 15},
+		{name: "1 * 12.5", a: "1*12.5", want: 12.5},
+		{name: "10 / 10", a: "10/10", want: 1},
+		{name: "5 / 10", a: "5   /    10", want: .5},
 	}
 	for _, tc := range testCases {
 		got, err := calculator.StringOperations(tc.a)

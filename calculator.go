@@ -76,26 +76,27 @@ func StringOperations(operation string) (float64, error) {
 	s := strings.ReplaceAll(operation, " ", "")
 	operators := []string{"+", "-", "*", "/"}
 
-	for _, op := range operators {
-		if strings.Contains(s, op) {
-			s := strings.Split(s, op)
-			a, _ := strconv.ParseFloat(s[0], 64)
-			b, _ := strconv.ParseFloat(s[1], 64)
+	op, err := getOperator(operators, s)
 
-			switch op {
-			case "+":
-				return Add(a, b), nil
-			case "-":
-				return Subtract(a, b), nil
-			case "*":
-				return Multiply(a, b), nil
-			case "/":
-				return Divide(a, b)
-			}
-
-		}
+	if err != nil {
+		return 0.0, err
 	}
-	return 0.0, errors.New("Invalid operator")
+
+	operationSlice := strings.Split(s, op)
+	a, _ := strconv.ParseFloat(operationSlice[0], 64)
+	b, _ := strconv.ParseFloat(operationSlice[1], 64)
+
+	switch op {
+	case "+":
+		return Add(a, b), nil
+	case "-":
+		return Subtract(a, b), nil
+	case "*":
+		return Multiply(a, b), nil
+	default:
+		return Divide(a, b)
+	}
+
 }
 
 func containsFloat64(s []float64, i float64) bool {
@@ -106,4 +107,13 @@ func containsFloat64(s []float64, i float64) bool {
 	}
 
 	return false
+}
+
+func getOperator(ops []string, s string) (string, error) {
+	for _, v := range ops {
+		if strings.Contains(s, v) {
+			return v, nil
+		}
+	}
+	return "", errors.New("Invalid operator")
 }
