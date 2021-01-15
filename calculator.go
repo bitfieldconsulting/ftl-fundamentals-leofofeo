@@ -10,11 +10,9 @@ import (
 // Add takes a variable number of float64 and returns their sum.
 func Add(a float64, b float64, nums ...float64) float64 {
 	sum := a + b
-
-	if len(nums) > 0 {
-		for _, n := range nums {
-			sum += n
-		}
+	
+	for _, n := range nums {
+		sum += n
 	}
 
 	return sum
@@ -24,10 +22,8 @@ func Add(a float64, b float64, nums ...float64) float64 {
 func Subtract(a float64, b float64, nums ...float64) float64 {
 	difference := a - b
 
-	if len(nums) > 0 {
-		for _, n := range nums {
-			difference -= n
-		}
+	for _, n := range nums {
+		difference -= n
 	}
 
 	return difference
@@ -37,10 +33,8 @@ func Subtract(a float64, b float64, nums ...float64) float64 {
 func Multiply(a float64, b float64, nums ...float64) float64 {
 	product := a * b
 
-	if len(nums) > 0 {
-		for _, n := range nums {
-			product *= n
-		}
+	for _, n := range nums {
+		product *= n
 	}
 
 	return product
@@ -48,7 +42,7 @@ func Multiply(a float64, b float64, nums ...float64) float64 {
 
 // Divide takes a variable number of float64 and returns their quotient, or an error if it's not a valid division.
 func Divide(a float64, b float64, nums ...float64) (float64, error) {
-	if b == 0 || containsFloat64(nums, 0.0) {
+	if b == 0 || containsFloat64(nums, 0) {
 		return 0, errors.New("Cannot divide by zero")
 	}
 
@@ -79,7 +73,7 @@ func StringOperations(operation string) (float64, error) {
 	op, err := getOperator(operators, s)
 
 	if err != nil {
-		return 0.0, err
+		return 0, err
 	}
 
 	operationSlice := strings.Split(s, op)
