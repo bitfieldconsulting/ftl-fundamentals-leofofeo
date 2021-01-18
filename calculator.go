@@ -10,7 +10,7 @@ import (
 // Add takes a variable number of float64 and returns their sum.
 func Add(a float64, b float64, nums ...float64) float64 {
 	sum := a + b
-	
+
 	for _, n := range nums {
 		sum += n
 	}
@@ -77,8 +77,15 @@ func StringOperations(operation string) (float64, error) {
 	}
 
 	operationSlice := strings.Split(s, op)
-	a, _ := strconv.ParseFloat(operationSlice[0], 64)
-	b, _ := strconv.ParseFloat(operationSlice[1], 64)
+	a, err := strconv.ParseFloat(operationSlice[0], 64)
+	if err != nil {
+		return 0, err
+	}
+
+	b, err := strconv.ParseFloat(operationSlice[1], 64)
+	if err != nil {
+		return 0, err
+	}
 
 	switch op {
 	case "+":
