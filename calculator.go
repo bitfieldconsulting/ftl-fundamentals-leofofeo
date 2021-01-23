@@ -37,12 +37,15 @@ func Multiply(a float64, b float64, nums ...float64) float64 {
 // Divide takes a variable number of float64 and returns their quotient, or
 // an error if the divisor is zero.
 func Divide(a float64, b float64, nums ...float64) (float64, error) {
-	if b == 0 || containsFloat64(nums, 0) {
+	if b == 0 {
 		return 0, errors.New("Cannot divide by zero")
 	}
 	dividend := a / b
 	if len(nums) > 0 {
 		for _, n := range nums {
+			if n == 0 {
+				return 0, errors.New("Cannot divide by zero")
+			}
 			dividend /= n
 		}
 	}
@@ -81,10 +84,12 @@ func StringOperations(operation string) (float64, error) {
 		return Subtract(a, b), nil
 	case "*":
 		return Multiply(a, b), nil
-	default:
+	case "/":
 		return Divide(a, b)
 	}
-
+	return 0, errors.New(
+		"No valid operators found (should be one of +, -, *, or /",
+	)
 }
 
 func containsFloat64(s []float64, i float64) bool {
