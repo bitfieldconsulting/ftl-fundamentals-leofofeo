@@ -34,7 +34,8 @@ func Multiply(a float64, b float64, nums ...float64) float64 {
 	return product
 }
 
-// Divide takes a variable number of float64 and returns their quotient, or an error if it's not a valid division.
+// Divide takes a variable number of float64 and returns their quotient, or
+// an error if the divisor is zero.
 func Divide(a float64, b float64, nums ...float64) (float64, error) {
 	if b == 0 || containsFloat64(nums, 0) {
 		return 0, errors.New("Cannot divide by zero")
