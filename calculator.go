@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-// Add takes a variable number of float64 and returns their sum.
+// Add takes two or more float64 values and returns their sum.
 func Add(a float64, b float64, nums ...float64) float64 {
 	sum := a + b
 	for _, n := range nums {
