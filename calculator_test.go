@@ -13,7 +13,13 @@ func TestAddSubtractMultiply(t *testing.T) {
 		a, b, want float64
 		f          func(float64, float64, ...float64) float64
 	}{
-		{name: "Add 1 + 1", a: 1, b: 1, want: 2, f: calculator.Add},
+		{
+			name: "Add 1 + 1",
+			a:    1,
+			b:    1,
+			want: 2,
+			f:    calculator.Add,
+		},
 		{
 			name: "Add a positive and a negative",
 			a:    10.0,
@@ -21,7 +27,13 @@ func TestAddSubtractMultiply(t *testing.T) {
 			want: 8.0,
 			f:    calculator.Add,
 		},
-		{name: "Add 5 + 3", a: 5, b: 3, want: 8, f: calculator.Add},
+		{
+			name: "Add 5 + 3",
+			a:    5,
+			b:    3,
+			want: 8,
+			f:    calculator.Add,
+		},
 		{
 			name: "Subtract 2 from 2",
 			a:    2,
@@ -50,7 +62,13 @@ func TestAddSubtractMultiply(t *testing.T) {
 			want: 9.5,
 			f:    calculator.Subtract,
 		},
-		{a: 2, b: 2, want: 4, name: "Multiply 2 and 2", f: calculator.Multiply},
+		{
+			a:    2,
+			b:    2,
+			want: 4,
+			name: "Multiply 2 and 2",
+			f:    calculator.Multiply,
+		},
 		{
 			a:    1,
 			b:    -1,
@@ -152,12 +170,13 @@ func TestAddRandom(t *testing.T) {
 	for i := 0; i < iterations; i++ {
 		a := rand.Float64() * 10
 		b := rand.Float64() * 10
-		sum := a + b
-		got := calculator.Add(a, b)
-		if sum != got {
-			t.Errorf("Expected sum of %f and %f to match", a, b)
-			t.Errorf("Got %f and %f (the latter from Add)", sum, got)
-		}
+		want := a + b
+		t.Run("Random addition", func(t *testing.T) {
+			got := calculator.Add(a, b)
+			if want != got {
+				t.Errorf("want %f, got %f", want, got)
+			}
+		})
 	}
 }
 
