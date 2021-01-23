@@ -140,7 +140,6 @@ func TestDivide(t *testing.T) {
 		if tc.errExpected != errReceived {
 			t.Fatalf("Unexpected error status: %v", err)
 		}
-
 		if !tc.errExpected && tc.want != got {
 			t.Errorf("want %f, got %f", tc.want, got)
 		}
@@ -153,9 +152,7 @@ func TestAddRandom(t *testing.T) {
 	for i := 0; i < iterations; i++ {
 		a := rand.Float64() * 10
 		b := rand.Float64() * 10
-
 		sum := a + b
-
 		got := calculator.Add(a, b)
 		if sum != got {
 			t.Errorf("Expected sum of %f and %f to match", a, b)
@@ -202,7 +199,6 @@ func TestSqrRoot(t *testing.T) {
 			if tc.errExpected != errReceived {
 				t.Fatalf("Unexpected error status: %v", err)
 			}
-
 			if !tc.errExpected && tc.want != got {
 				t.Errorf("want %f, got %f", tc.want, got)
 			}
@@ -219,7 +215,6 @@ func TestVariadicFunctions(t *testing.T) {
 	if got != want {
 		t.Errorf("want %f, got %f", want, got)
 	}
-
 	got = calculator.Add(1, 2, 3, 4, 100, 1000, -5)
 	want = 1105
 	if got != want {
@@ -232,7 +227,6 @@ func TestVariadicFunctions(t *testing.T) {
 	if got != want {
 		t.Errorf("want %f, got %f", want, got)
 	}
-
 	got = calculator.Subtract(-10, 5, -20)
 	want = 5
 	if got != want {
@@ -245,7 +239,6 @@ func TestVariadicFunctions(t *testing.T) {
 	if got != want {
 		t.Errorf("want %f, got %f", want, got)
 	}
-
 	got = calculator.Multiply(10, -10, 1, -1, .5)
 	want = 50
 	if got != want {
@@ -258,21 +251,17 @@ func TestVariadicFunctions(t *testing.T) {
 	if got != want {
 		t.Errorf("want %f, got %f", want, got)
 	}
-
 	if err != nil {
 		t.Errorf("Error when atttempting to divide")
 	}
-
 	got, err = calculator.Divide(-5, 10, .5)
 	want = -1
 	if got != want {
 		t.Errorf("want %f, got %f", want, got)
 	}
-
 	if err != nil {
 		t.Errorf("Error when atttempting to divide")
 	}
-
 	_, err = calculator.Divide(100, 10, 10, 0, 20)
 	if err == nil {
 		t.Errorf("No error thrown when atttempting to divide by zero")
@@ -305,7 +294,6 @@ func TestStringOperations(t *testing.T) {
 			if !tc.errExpected && tc.want != got {
 				t.Errorf("want %f, got %f", tc.want, got)
 			}
-
 		})
 	}
 }

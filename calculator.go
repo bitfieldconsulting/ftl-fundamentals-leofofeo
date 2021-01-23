@@ -10,33 +10,27 @@ import (
 // Add takes a variable number of float64 and returns their sum.
 func Add(a float64, b float64, nums ...float64) float64 {
 	sum := a + b
-
 	for _, n := range nums {
 		sum += n
 	}
-
 	return sum
 }
 
 // Subtract takes a variable number of float64 and returns their difference.
 func Subtract(a float64, b float64, nums ...float64) float64 {
 	difference := a - b
-
 	for _, n := range nums {
 		difference -= n
 	}
-
 	return difference
 }
 
 // Multiply takes a variable number of float64 and returns their product.
 func Multiply(a float64, b float64, nums ...float64) float64 {
 	product := a * b
-
 	for _, n := range nums {
 		product *= n
 	}
-
 	return product
 }
 
@@ -45,15 +39,12 @@ func Divide(a float64, b float64, nums ...float64) (float64, error) {
 	if b == 0 || containsFloat64(nums, 0) {
 		return 0, errors.New("Cannot divide by zero")
 	}
-
 	dividend := a / b
-
 	if len(nums) > 0 {
 		for _, n := range nums {
 			dividend /= n
 		}
 	}
-
 	return dividend, nil
 }
 
@@ -69,24 +60,19 @@ func SqrRoot(a float64) (float64, error) {
 func StringOperations(operation string) (float64, error) {
 	s := strings.ReplaceAll(operation, " ", "")
 	operators := []string{"+", "-", "*", "/"}
-
 	op, err := getOperator(operators, s)
-
 	if err != nil {
 		return 0, err
 	}
-
 	operationSlice := strings.Split(s, op)
 	a, err := strconv.ParseFloat(operationSlice[0], 64)
 	if err != nil {
 		return 0, err
 	}
-
 	b, err := strconv.ParseFloat(operationSlice[1], 64)
 	if err != nil {
 		return 0, err
 	}
-
 	switch op {
 	case "+":
 		return Add(a, b), nil
@@ -106,7 +92,6 @@ func containsFloat64(s []float64, i float64) bool {
 			return true
 		}
 	}
-
 	return false
 }
 
