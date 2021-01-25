@@ -16,7 +16,7 @@ func Add(a float64, b float64, nums ...float64) float64 {
 	return sum
 }
 
-// Subtract takes a variable number of float64 and returns their difference.
+// Subtract takes two or more float64 values and returns the result of subtracting all the other values from the first.
 func Subtract(a float64, b float64, nums ...float64) float64 {
 	difference := a - b
 	for _, n := range nums {
