@@ -92,15 +92,6 @@ func StringOperations(operation string) (float64, error) {
 	)
 }
 
-func containsFloat64(s []float64, i float64) bool {
-	for _, v := range s {
-		if v == i {
-			return true
-		}
-	}
-	return false
-}
-
 func getOperator(ops []string, s string) (string, error) {
 	for _, v := range ops {
 		if strings.Contains(s, v) {
