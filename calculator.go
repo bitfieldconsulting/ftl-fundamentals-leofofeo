@@ -18,11 +18,11 @@ func Add(a float64, b float64, nums ...float64) float64 {
 
 // Subtract takes two or more float64 values and returns the result of subtracting all the other values from the first.
 func Subtract(a float64, b float64, nums ...float64) float64 {
-	difference := a - b
+	result := a - b
 	for _, n := range nums {
-		difference -= n
+		result -= n
 	}
-	return difference
+	return result
 }
 
 // Multiply takes a variable number of float64 and returns their product.
@@ -38,30 +38,28 @@ func Multiply(a float64, b float64, nums ...float64) float64 {
 // an error if the divisor is zero.
 func Divide(a float64, b float64, nums ...float64) (float64, error) {
 	if b == 0 {
-		return 0, errors.New("Cannot divide by zero")
+		return 0, errors.New("cannot divide by zero")
 	}
-	dividend := a / b
-	if len(nums) > 0 {
-		for _, n := range nums {
-			if n == 0 {
-				return 0, errors.New("Cannot divide by zero")
-			}
-			dividend /= n
+	quotient := a / b
+	for _, n := range nums {
+		if n == 0 {
+			return 0, errors.New("cannot divide by zero")
 		}
+		quotient /= n
 	}
-	return dividend, nil
+	return quotient, nil
 }
 
-// SqrRoot takes a number and returns its square root provided it has one, otherwise it returns an error.
-func SqrRoot(a float64) (float64, error) {
+// Sqrt takes a number and returns its square root provided it has one, otherwise it returns an error.
+func Sqrt(a float64) (float64, error) {
 	if a < 0 {
 		return 0, errors.New("cannot get square root of negative number")
 	}
 	return math.Sqrt(a), nil
 }
 
-// StringOperations takes in an expression as a string and parses it to evaluate it. Ex: "10 + 5" returns 15
-func StringOperations(operation string) (float64, error) {
+// EvaluateExpr takes in an expression as a string and parses it to evaluate it. Ex: "10 + 5" returns 15
+func EvaluateExpr(operation string) (float64, error) {
 	s := strings.ReplaceAll(operation, " ", "")
 	operators := []string{"+", "-", "*", "/"}
 	op, err := getOperator(operators, s)
@@ -88,7 +86,7 @@ func StringOperations(operation string) (float64, error) {
 		return Divide(a, b)
 	}
 	return 0, errors.New(
-		"No valid operators found (should be one of +, -, *, or /",
+		"no valid operators found (should be one of +, -, *, or /",
 	)
 }
 
@@ -98,5 +96,5 @@ func getOperator(ops []string, s string) (string, error) {
 			return v, nil
 		}
 	}
-	return "", errors.New("Invalid operator")
+	return "", errors.New("invalid operator")
 }

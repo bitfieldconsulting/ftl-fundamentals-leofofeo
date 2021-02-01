@@ -213,7 +213,7 @@ func TestSqrRoot(t *testing.T) {
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			got, err := calculator.SqrRoot(tc.a)
+			got, err := calculator.Sqrt(tc.a)
 			errReceived := err != nil
 			if tc.errExpected != errReceived {
 				t.Fatalf("Unexpected error status: %v", err)
@@ -287,7 +287,7 @@ func TestVariadicFunctions(t *testing.T) {
 	}
 }
 
-func TestStringOperations(t *testing.T) {
+func TestEvaluateExpr(t *testing.T) {
 	t.Parallel()
 	testCases := []struct {
 		name, a     string
@@ -305,7 +305,7 @@ func TestStringOperations(t *testing.T) {
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			got, err := calculator.StringOperations(tc.a)
+			got, err := calculator.EvaluateExpr(tc.a)
 			errReceived := err != nil
 			if tc.errExpected != errReceived {
 				t.Fatalf("Unexpected error status: %v", err)
