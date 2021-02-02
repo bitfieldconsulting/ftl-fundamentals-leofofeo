@@ -2,8 +2,8 @@ package calculator
 
 import (
 	"errors"
+	"fmt"
 	"math"
-	"strconv"
 	"strings"
 )
 
@@ -59,30 +59,21 @@ func Sqrt(a float64) (float64, error) {
 }
 
 // EvaluateExpr takes in an expression as a string and parses it to evaluate it. Ex: "10 + 5" returns 15
-func EvaluateExpr(operation string) (float64, error) {
-	s := strings.ReplaceAll(operation, " ", "")
-	operators := []string{"+", "-", "*", "/"}
-	op, err := getOperator(operators, s)
-	if err != nil {
-		return 0, err
-	}
-	operationSlice := strings.Split(s, op)
-	a, err := strconv.ParseFloat(operationSlice[0], 64)
-	if err != nil {
-		return 0, err
-	}
-	b, err := strconv.ParseFloat(operationSlice[1], 64)
+func EvaluateExpr(expr string) (float64, error) {
+	var a, b float64
+	var op rune
+	_, err := fmt.Sscanf(expr, "%f%c%f", &a, &op, &b)
 	if err != nil {
 		return 0, err
 	}
 	switch op {
-	case "+":
+	case '+':
 		return Add(a, b), nil
-	case "-":
+	case '-':
 		return Subtract(a, b), nil
-	case "*":
+	case '*':
 		return Multiply(a, b), nil
-	case "/":
+	case '/':
 		return Divide(a, b)
 	}
 	return 0, errors.New(
