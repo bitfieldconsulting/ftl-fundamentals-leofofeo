@@ -11,6 +11,7 @@ func TestAddSubtractMultiply(t *testing.T) {
 	testCases := []struct {
 		name       string
 		a, b, want float64
+		extra      []float64
 		f          func(float64, float64, ...float64) float64
 	}{
 		{
@@ -28,11 +29,12 @@ func TestAddSubtractMultiply(t *testing.T) {
 			f:    calculator.Add,
 		},
 		{
-			name: "Add 5 + 3",
-			a:    5,
-			b:    3,
-			want: 8,
-			f:    calculator.Add,
+			name:  "Add a whole bunch of numbers",
+			a:     5,
+			b:     3,
+			extra: []float64{2, 1},
+			want:  11,
+			f:     calculator.Add,
 		},
 		{
 			name: "Subtract 2 from 2",
@@ -42,11 +44,12 @@ func TestAddSubtractMultiply(t *testing.T) {
 			f:    calculator.Subtract,
 		},
 		{
-			name: "Subtract a negative number from 0",
-			a:    0,
-			b:    -15,
-			want: 15,
-			f:    calculator.Subtract,
+			name:  "Subtract a bunch of negative numbers from 0",
+			a:     0,
+			b:     -15,
+			extra: []float64{-2, -3},
+			want:  20,
+			f:     calculator.Subtract,
 		},
 		{
 			name: "Subtract a larger value from a smaller value",
@@ -90,11 +93,19 @@ func TestAddSubtractMultiply(t *testing.T) {
 			want: -20,
 			f:    calculator.Multiply,
 		},
+		{
+			name:  "Multiply a bunch of numbers",
+			a:     2,
+			b:     2,
+			extra: []float64{3, 4, 5},
+			want:  240,
+			f:     calculator.Multiply,
+		},
 	}
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			got := tc.f(tc.a, tc.b)
+			got := tc.f(tc.a, tc.b, tc.extra...)
 			if tc.want != got {
 				t.Errorf("want %f, got %f", tc.want, got)
 			}
@@ -107,6 +118,7 @@ func TestDivide(t *testing.T) {
 	testCases := []struct {
 		name        string
 		a, b, want  float64
+		extra []float64
 		errExpected bool
 	}{
 		{
@@ -151,16 +163,26 @@ func TestDivide(t *testing.T) {
 			want:        0,
 			errExpected: false,
 		},
+		{
+			name:        "Divide something by a bunch of numbers including zero",
+			a:           4,
+			b:           2,
+			extra: []float64{1, 0, 1},
+			want:        999,
+			errExpected: true,
+		},
 	}
 	for _, tc := range testCases {
-		got, err := calculator.Divide(tc.a, tc.b)
-		errReceived := err != nil
-		if tc.errExpected != errReceived {
-			t.Fatalf("Unexpected error status: %v", err)
-		}
-		if !tc.errExpected && tc.want != got {
-			t.Errorf("want %f, got %f", tc.want, got)
-		}
+		t.Run(tc.name, func (t *testing.T) {
+			got, err := calculator.Divide(tc.a, tc.b, tc.extra...)
+			errReceived := err != nil
+			if tc.errExpected != errReceived {
+				t.Fatalf("Unexpected error status: %v", err)
+			}
+			if !tc.errExpected && tc.want != got {
+				t.Errorf("want %f, got %f", tc.want, got)
+			}
+		})
 	}
 }
 
@@ -222,68 +244,6 @@ func TestSqrRoot(t *testing.T) {
 				t.Errorf("want %f, got %f", tc.want, got)
 			}
 		})
-	}
-}
-
-func TestVariadicFunctions(t *testing.T) {
-	t.Parallel()
-
-	// test addition
-	got := calculator.Add(1, 2, 3, 4)
-	var want float64 = 10
-	if got != want {
-		t.Errorf("want %f, got %f", want, got)
-	}
-	got = calculator.Add(1, 2, 3, 4, 100, 1000, -5)
-	want = 1105
-	if got != want {
-		t.Errorf("want %f, got %f", want, got)
-	}
-
-	// test substraction
-	got = calculator.Subtract(10, 5, 3)
-	want = 2
-	if got != want {
-		t.Errorf("want %f, got %f", want, got)
-	}
-	got = calculator.Subtract(-10, 5, -20)
-	want = 5
-	if got != want {
-		t.Errorf("want %f, got %f", want, got)
-	}
-
-	// test multiplication
-	got = calculator.Multiply(-5, 6, 2, 4, 0)
-	want = 0
-	if got != want {
-		t.Errorf("want %f, got %f", want, got)
-	}
-	got = calculator.Multiply(10, -10, 1, -1, .5)
-	want = 50
-	if got != want {
-		t.Errorf("want %f, got %f", want, got)
-	}
-
-	// test division
-	got, err := calculator.Divide(100, 10, 10)
-	want = 1
-	if got != want {
-		t.Errorf("want %f, got %f", want, got)
-	}
-	if err != nil {
-		t.Errorf("Error when atttempting to divide")
-	}
-	got, err = calculator.Divide(-5, 10, .5)
-	want = -1
-	if got != want {
-		t.Errorf("want %f, got %f", want, got)
-	}
-	if err != nil {
-		t.Errorf("Error when atttempting to divide")
-	}
-	_, err = calculator.Divide(100, 10, 10, 0, 20)
-	if err == nil {
-		t.Errorf("No error thrown when atttempting to divide by zero")
 	}
 }
 
